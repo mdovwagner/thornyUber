@@ -1,0 +1,21 @@
+.card {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 70px;
+    width: 90px;
+    justify-content: flex-end;
+    background: gray;
+    outline-color: black;
+    outline-width: 4;
+    outline-style: solid;
+    cursor: pointer;
+}
+
+.card:hover {
+  outline-color: darkgray;
+}
+
+.card-label {
+    text-align: center;
+}
