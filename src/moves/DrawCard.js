@@ -17,4 +17,5 @@ export function drawCard(G, ctx, city) {
             return INVALID_MOVE;
         }
     }
+    ctx.events.setStage("play");
 }

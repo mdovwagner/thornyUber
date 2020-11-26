@@ -3,6 +3,9 @@ import { INVALID_MOVE } from 'boardgame.io/core';
 import { cities } from './static/cities'
 import { drawCard } from './moves/DrawCard.js'
 import { playCard } from './moves/PlayCard.js'
+import { scoreCards } from './moves/ScoreCards.js'
+import { placeHouses } from './moves/PlaceHouses.js'
+import { pickOfficial } from './moves/PickOfficial.js'
 
 import PlayerModel from './models/PlayerModel'
 
@@ -33,7 +36,7 @@ function setupGame (ctx) {
 
     let cityStatus = {}
     for (const city in cities) {
-        cityStatus[city] = []; 
+        cityStatus[city] = Array(ctx.numPlayers).fill(false); 
     }
 
     let players = {}
@@ -69,11 +72,9 @@ function setupGame (ctx) {
 const turns = {
     stages: {
         draw : { moves: { drawCard } },
-        play: { moves: { playCard } },
-        // score: { moves: { ScoreCard } },
-        // postmaster: { moves: { DrawCard } },
-        // postalCarrier: { moves: { PlayCard } },
-        // administrator: { moves: { DiscardCard } }
+        play: { moves: { playCard, pickOfficial } },
+        score: { moves: { scoreCards, placeHouses, pickOfficial } },
+        // administrator: { moves: { discardCard } } // -> draw card
     },
 }
 
@@ -88,8 +89,8 @@ export const ThornyUber = {
             }
             G.cells[id] = ctx.currentPlayer;
         },
-        drawCard : drawCard,
-        playCard : playCard,
+        pickOfficial: pickOfficial,
+        drawCard : drawCard
     },
 
     turn: turns,

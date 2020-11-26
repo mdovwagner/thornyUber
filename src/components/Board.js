@@ -1,6 +1,7 @@
 import React from 'react';
 import { cities } from '../static/cities'
 import { edges } from '../static/edges'
+import { playerColors } from '../static/playerColors'
 
 import { GraphView } from 'react-digraph';
 
@@ -14,6 +15,60 @@ const regionColors = {
   southeast: '#9beba1',
   northeast: '#e8c87d',
 }
+
+function City() {
+  const cityPosition = {
+    10: { x: 50, y: 22 },
+    15: { x: 22, y: 50 },
+    20: { x: 78, y: 50 },
+    3: { x: 50, y: 78 }
+  }
+
+  const innerRadius = 18
+
+  const houseClip = "polygon(50% 15%, 80% 33%, 80% 75%, 20% 75%, 20% 33%)"
+
+  return (
+    <symbol viewBox="0 0 100 100" id="city" key="0" height="100" width="100">
+      <circle cx="50" cy="50" r="50" style={{ fill: "var(--region-color)" }}></circle>
+      <circle cx={cityPosition[10]['x']} cy={cityPosition[10]['y']} r={innerRadius} fill="lightgrey" stroke="black"></circle>
+      <circle cx={cityPosition[15]['x']} cy={cityPosition[15]['y']} r={innerRadius} fill="lightgrey" stroke="black"></circle>
+      <circle cx={cityPosition[20]['x']} cy={cityPosition[20]['y']} r={innerRadius} fill="lightgrey" stroke="black"></circle>
+      <circle cx={cityPosition[3]['x']} cy={cityPosition[3]['y']} r={innerRadius} fill="lightgrey" stroke="black"></circle>
+
+      <circle
+        cx={cityPosition[10]['x']}
+        cy={cityPosition[10]['y']}
+        r={innerRadius}
+        clipPath={houseClip}
+        style={{ display: "var(--house-0-display)", fill: "var(--house-0-color" }}
+      ></circle>
+      <circle
+        cx={cityPosition[15]['x']}
+        cy={cityPosition[15]['y']}
+        r={innerRadius}
+        clipPath={houseClip}
+        style={{ display: "var(--house-1-display)", fill: "var(--house-1-color" }}
+      ></circle>
+      <circle
+        cx={cityPosition[20]['x']}
+        cy={cityPosition[20]['y']}
+        r={innerRadius}
+        clipPath={houseClip}
+        style={{ display: "var(--house-2-display)", fill: "var(--house-2-color" }}
+      ></circle>
+      <circle
+        cx={cityPosition[3]['x']}
+        cy={cityPosition[3]['y']}
+        r={innerRadius}
+        clipPath={houseClip}
+        style={{ display: "var(--house-3-display)", fill: "var(--house-3-color" }}
+      ></circle>
+    </symbol>
+  )
+}
+
+const renderDefs = () => <defs><City></City></defs>
 
 const EdgeTypes = {
   edge: {
@@ -40,11 +95,10 @@ const GraphConfig = {
   },
   NodeSubtypes: {},
   EdgeTypes: {
-    emptyEdge: {  // required to show empty edges
-      shapeId: "#emptyEdge",
+    edge: {
+      shapeId: "#edge",
       shape: (
-        <symbol viewBox="0 0 50 50" id="emptyEdge" key="0">
-          <circle cx="25" cy="25" r="4" fill="currentColor"> </circle>
+        <symbol viewBox="0 0 50 50" id="edge" key="0">
         </symbol>
       )
     }
@@ -64,10 +118,48 @@ const renderNodeText = (data, id, isSelected) => {
 
 export class ThornyUbersBoard extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.renderNode = this.renderNode.bind(this)
+    // this.renderBackground = this.renderBackground.bind(this)
+    this.graphView = React.createRef()
+    this.state = { layoutEngineType: 0 }
+  }
+
+  renderNode(nodeRef, data, index, selected, hovered) {
+    let style = { '--region-color': data.region }
+    
+    if (selected) {
+      style['outline'] = '5px solid orangered'
+    }
+    for (let i = 0; i < 4; i++) {
+      // Total houses is 4 which is the max num players
+      if (i < this.props.numPlayers) {
+        const houseExists = this.props.cityStatus[data.id][i]
+        const houseColor = (playerColors[i] || {}).houseBackground
+        style['--house-' + i + '-display'] = (houseExists) ? 'default' : 'none'
+        style['--house-' + i + '-color'] = houseColor
+      } else {
+        style['--house-' + i + '-display'] = 'none'
+      }
+    }
+
+    return (
+      <use
+        x="-50"
+        y="-50"
+        xlinkHref="#city"
+        // className={'node' + (usePointer ? ' city-selectable' : '')}
+        style={style}
+        cursor="pointer"
+      />
+    )
+  }
+
   render() {
 
     return (
-      <div>
+      <div name="board" className="graph">
         <GraphView
           readOnly={true}
           nodeKey={NODE_KEY}
@@ -78,9 +170,9 @@ export class ThornyUbersBoard extends React.Component {
           edges={edges}
           nodeTypes={GraphConfig.NodeTypes}
           edgeTypes={GraphConfig.EdgeTypes}
-          // renderNode={this.renderNode}
+          renderNode={this.renderNode}
           renderNodeText={renderNodeText}
-          // renderDefs={renderDefs}
+          renderDefs={renderDefs}
           // renderBackground={this.renderBackground}
           initialBBox={{ x: 0, y: 0, width: 600, height: 300 }}
           //onSelectNode={node => { if (node) { this.props.selectCity(node.id) } }}
