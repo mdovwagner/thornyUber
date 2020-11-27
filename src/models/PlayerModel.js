@@ -3,6 +3,7 @@ import { officials } from '../static/officials.js'
 class PlayerModel {
     constructor () {
         this.cities = []
+        this.selectedCities = [];
         this.tableau = []
         this.hand = []
         this.houses = 20 // Start with 20 houses

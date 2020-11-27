@@ -6,6 +6,8 @@ import { playCard } from './moves/PlayCard.js'
 import { scoreCards } from './moves/ScoreCards.js'
 import { placeHouses } from './moves/PlaceHouses.js'
 import { pickOfficial } from './moves/PickOfficial.js'
+import { selectCity } from './moves/SelectCity.js'
+import { endTurn } from './moves/EndTurn.js'
 
 import PlayerModel from './models/PlayerModel'
 
@@ -70,10 +72,18 @@ function setupGame (ctx) {
 }
 
 const turns = {
+    onBegin: (G, ctx) => {
+        G.players[ctx.currentPlayer].official = null
+        for (let official in G.players[ctx.currentPlayer].validOfficials) {
+            G.players[ctx.currentPlayer].validOfficials[official] = false;
+        }
+        G.players[ctx.currentPlayer].selectedCities = []
+    },
     stages: {
         draw : { moves: { drawCard } },
         play: { moves: { playCard, pickOfficial } },
-        score: { moves: { scoreCards, placeHouses, pickOfficial } },
+        score: { moves: { scoreCards, pickOfficial, endTurn } },
+        place: { moves: { selectCity, placeHouses } },
         // administrator: { moves: { discardCard } } // -> draw card
     },
 }

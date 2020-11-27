@@ -5,6 +5,7 @@ import { ThornyUbersTable } from './components/Table';
 const App = Client({
   game: ThornyUber,
   board: ThornyUbersTable,
+  numPlayers: 2,
 });
 
 export default App;

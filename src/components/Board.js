@@ -127,7 +127,15 @@ export class ThornyUbersBoard extends React.Component {
   }
 
   renderNode(nodeRef, data, index, selected, hovered) {
+    const stage = (this.props.ctx.activePlayers !== null) ? this.props.ctx.activePlayers[this.props.ctx.currentPlayer]: null;
     let style = { '--region-color': data.region }
+    if (stage === "place") {
+      style = { '--region-color': this.props.tableau.includes(data.id) ? data.region : 'white'}
+    }
+    const citySelected = this.props.selectedCities.includes(data.id);
+    if (citySelected) {
+      style['outline'] = '5px solid orangered'
+    }
     
     if (selected) {
       style['outline'] = '5px solid orangered'
@@ -175,7 +183,7 @@ export class ThornyUbersBoard extends React.Component {
           renderDefs={renderDefs}
           // renderBackground={this.renderBackground}
           initialBBox={{ x: 0, y: 0, width: 600, height: 300 }}
-          //onSelectNode={node => { if (node) { this.props.selectCity(node.id) } }}
+          onSelectNode={node => { if (node) { this.props.selectCity(node.id) } }}
           ref={this.graphView}
 
           // Not needed

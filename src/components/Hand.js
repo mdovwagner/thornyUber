@@ -1,14 +1,22 @@
+import { GridList } from '@material-ui/core';
 import React from 'react';
-import Card from './Card';
-
+import CityCard from './Card';
+import Grid from '@material-ui/core/Grid';
 
 export default function Hand(props) {
 
     return (
-        <div className="card-container">
+        <Grid container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+        >
+
             {props.hand.map( city =>
-                <Card title={city} onClick={props.onClick} />
+                <Grid item>
+                    <CityCard title={city} onClick={props.onClick} />
+                </Grid>
             )}
-        </div>
+        </Grid>
     );
 }

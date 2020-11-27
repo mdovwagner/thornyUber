@@ -1,18 +1,17 @@
 .card-container {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
+    display: 'flex';
+    flex-wrap: 'no-wrap';
+    justify-content: 'space-around';
+    overflow: 'hidden';
 }
 
 .card {
     justify-content: flex-start;
     position: relative;
-    height: 70px;
-    width: 90px;
+    min-width: 120px;
     background: gray;
     outline-color: black;
-    outline-width: 4;
-    outline-style: solid;
+    outline-width: 2;
     cursor: pointer;
 }
 

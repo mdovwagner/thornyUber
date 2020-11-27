@@ -6,7 +6,9 @@ import Hand from './Hand';
 import Tableau from './Tableau';
 import './styles/card.css'
 
+
 export class Player extends React.Component {
+
 
     render() {
         let player = this.props.player

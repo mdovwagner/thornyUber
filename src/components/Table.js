@@ -10,10 +10,17 @@ import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Grid from '@material-ui/core/Grid';
 import { officials } from '../static/officials';
+import { Dialog } from '@material-ui/core';
+import { DialogContent } from '@material-ui/core';
 
 
 export class ThornyUbersTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.boardOpen = false;
+  } 
 
   static propTypes = {
     events: PropTypes.any.isRequired,
@@ -34,26 +41,54 @@ export class ThornyUbersTable extends React.Component {
     this.props.moves.scoreCards();
   }
 
+  endTurn = () => {
+    console.log("Place Cities / End Turn");
+    const stage = this.props.ctx.activePlayers[this.props.ctx.currentPlayer];
+    if (stage === "score") {
+      this.props.moves.endTurn();
+    } else if (stage === "place") {
+      this.props.moves.placeHouses();
+    }
+  }
+
   render() {
     let player = this.props.G.players[this.props.ctx.currentPlayer]
     const hStyle = { backgroundColor: "moccasin" };
     return (
-      <div style={hStyle}>
-        <Supply onClick={this.drawCard} cards={this.props.G.tableau}/>
-        <ThornyUbersBoard cityStatus = {this.props.G.cityStatus} numPlayers = {this.props.ctx.numPlayers}/>
-        <Player player={player} playCard={this.playCard} scoreCards={this.scoreCards} endTurn={() => this.props.events.endTurn()}/>
-
-        <ButtonGroup variant="contained" color="primary">
-          <Button color={(player.validOfficials[officials.POSTMASTER] ? "primary" : "secondary")}
+      <Grid container style={hStyle}>
+        <Grid item xs={3}>
+          <Supply onClick={this.drawCard} cards={this.props.G.tableau}/>
+        </Grid>
+        <Grid item xs={9}>
+          <ThornyUbersBoard 
+            cityStatus = {this.props.G.cityStatus} 
+            numPlayers = {this.props.ctx.numPlayers}
+            selectCity = {this.props.moves.selectCity}
+            selectedCities = {player.selectedCities}
+            tableau = {player.tableau}
+            ctx = {this.props.ctx}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <ButtonGroup variant="contained" color="primary" orientation="vertical">
+          <Button color="primary"
+                  disabled={(player.validOfficials[officials.POSTMASTER] ? false : true)}
                   onClick={() => this.props.moves.pickOfficial(officials.POSTMASTER)}>Post Master</Button>
-          <Button color={(player.validOfficials[officials.POSTALCARRIER] ? "primary" : "secondary")}
+          <Button color="primary"
+                  disabled={(player.validOfficials[officials.POSTALCARRIER] ? false : true)}
                   onClick={() => this.props.moves.pickOfficial(officials.POSTALCARRIER)}>Postal Carrier</Button>
-          <Button color={(player.validOfficials[officials.ADMINISTRATOR] ? "primary" : "secondary")}
+          <Button color="primary"
+                  disabled={(player.validOfficials[officials.ADMINISTRATOR] ? false : true)}
                   onClick={() => this.props.moves.pickOfficial(officials.ADMINISTRATOR)}>Administrator</Button>
-          <Button color={(player.validOfficials[officials.CARTWRIGHT] ? "primary" : "secondary")}
+          <Button color="primary"
+                  disabled={(player.validOfficials[officials.CARTWRIGHT] ? false : true)}
                   onClick={() => this.props.moves.pickOfficial(officials.CARTWRIGHT)}>Cartwright</Button>
         </ButtonGroup>
-      </div>
+        </Grid>
+        <Grid item xs={10}>
+          <Player player={player} playCard={this.playCard} scoreCards={this.scoreCards} endTurn={this.endTurn}/>
+        </Grid>
+      </Grid>
     );
   }
 }
