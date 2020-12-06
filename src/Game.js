@@ -11,6 +11,41 @@ import { selectCity } from './moves/SelectCity.js'
 import { endTurn } from './moves/EndTurn.js'
 
 import PlayerModel from './models/PlayerModel'
+import { officials } from './static/officials';
+import { carriages } from './static/carriages';
+
+function isGameOver(G, ctx) {
+    for (let player in ctx.players) {
+        // Check if all houses are gone
+        if (ctx.players[player].houses === 0) return true;
+        // Check if carriage is 7
+        if (ctx.players[player].carriageNumber === 7) return true;
+    }
+    return false;
+}
+
+function isLastTurn(G, ctx) {
+    // Conditions to win:
+    // All houses gone, or carriage 7
+    // AND it's the final person's turn
+    return isGameOver(G, ctx) && (ctx.currentPlayer == ctx.numPlayers - 1);
+
+}
+
+function getWinner(G, ctx) {
+    let points = Array(ctx.numPlayers).fill(0);
+    for (let player in ctx.players) {
+        // + Carriage Points
+        points[player] += carriages[ctx.players[player].carriageNumber].points
+        // + Bonus Tiles
+        for (let bonus in ctx.players[player].bonuses) {
+            points[player] += ctx.players[player].bonuses[bonus].points;
+        }
+        // - Extra Houses
+        points[player] -= ctx.players[player].houses
+    } 
+    return points.indexOf(Math.max(points));
+}
 
 
 function setupGame (ctx) {
@@ -63,6 +98,7 @@ const turns = {
         for (let official in G.players[ctx.currentPlayer].validOfficials) {
             G.players[ctx.currentPlayer].validOfficials[official] = false;
         }
+        G.players[ctx.currentPlayer].validOfficials[officials.ADMINISTRATOR] = true;
         G.players[ctx.currentPlayer].selectedCities = []
     },
     stages: {
@@ -87,5 +123,8 @@ export const ThornyUber = {
 
 
     endIf: (G, ctx) => {
+        if (isLastTurn(G, ctx)) {
+            return { winner: getWinner(G, ctx) };
+        }
       },
 };

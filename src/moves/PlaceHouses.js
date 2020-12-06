@@ -70,11 +70,6 @@ export function placeHouses(G, ctx) {
         }
     }
 
-
-    
-
-
-
     for (const card in G.players[ctx.currentPlayer].tableau) {
         G.discard.unshift(cities[card]);
     }

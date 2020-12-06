@@ -1,11 +1,25 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
+import { cities } from '../static/cities.js';
 import { officials } from '../static/officials.js'
+
+
+function discardCards(G, ctx) {
+    // Discard all 6 cards and draw new ones
+    for (const card in G.tableau) {
+        G.discard.unshift(G.tableau[card]);
+    }
+    G.tableau = [];
+    for (let i = 0; i < 6; i++) {
+        G.tableau.push(G.supply.pop());
+    }
+}
+
+
 
 export function pickOfficial(G, ctx, official) {
     console.log("Pick Official");
 
     // If the official is valid, switch to that stage and invalidate all other officials
-    console.log(G.players[ctx.currentPlayer].validOfficials[official]);
     if (G.players[ctx.currentPlayer].validOfficials[official] !== true) {
         // Invalid Official
         return INVALID_MOVE;
@@ -25,8 +39,7 @@ export function pickOfficial(G, ctx, official) {
             break;
         case officials.ADMINISTRATOR:
             // get rid of cards
-            // ctx.events.setStage("administrator");
-            // discardCards(G, ctx, playerTableau);
+            discardCards(G, ctx);
             break;
         default:
             return INVALID_MOVE;
