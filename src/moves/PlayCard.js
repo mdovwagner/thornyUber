@@ -7,6 +7,7 @@ export function playCard(G, ctx, city, onLeft) {
     G.players[ctx.currentPlayer].validOfficials[officials.POSTMASTER] = false;
     if (G.players[ctx.currentPlayer].official === null) {
         G.players[ctx.currentPlayer].validOfficials[officials.POSTALCARRIER] = true;
+        G.players[ctx.currentPlayer].validOfficials[officials.CARTWRIGHT] = true;
     }
     
     // Take card from hand and add it to tableau on left or right side.

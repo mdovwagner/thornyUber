@@ -6,16 +6,14 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 
-export default function CityCard(props) {
-    if (props.title === null) {
-        return(<Card />)
-    }
+export default function CityCardBack(props) {
     const city = cities[props.title];
-    const hStyle = { backgroundColor: city.region };
+    const hStyle = { backgroundColor: "brown" };
     return (
         <Card style={hStyle} onClick={(event) => props.onClick(event, city.id)} className="card" variant="outlined" >
+            {/* <CardHeader title={city.id} style={hStyle} className="card-label"/> */}
             <CardContent>
-                <Typography variant="h5"  className="card-label" color="textPrimary">{city.id}</Typography>
+                <Typography variant="h5" className="card-label" color="textPrimary">Card</Typography>
             </CardContent>
         </Card>
     );

@@ -1,48 +1,78 @@
 import React from 'react';
 import CityCard from './Card';
 import Grid from '@material-ui/core/Grid';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import Popover from '@material-ui/core/Popover';
+import Typography from '@material-ui/core/Typography';
+import { Button, ButtonGroup, IconButton } from '@material-ui/core';
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 
-function onDragEnd(result, hand) {
-    // dropped outside the list
-    if (!result.destination) {
-        return;
+
+
+
+export default class Hand extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            open: false,
+            anchorEl: null,
+        };
+        this.handlePopoverOpen = this.handlePopoverOpen.bind(this);
+        this.handlePopoverClose = this.handlePopoverClose.bind(this);
     }
-   
-    const [removed] = hand.splice(result.source.index, 1);
-    hand.splice(result.destination.index, 0, removed);
-}
 
-export default function Hand(props) {
+    handlePopoverOpen(event, popoverId) {
+        this.setState({
+            openedPopoverId: popoverId,
+            anchorEl: event.target,
+        });
+    }
+    handlePopoverClose() {
+        this.setState({
+            openedPopoverId: null,
+            anchorEl: null,
+        });
+    }
+
+    render() {
+        const { anchorEl, openedPopoverId } = this.state;
+        const handleButton = (city, isLeft) => {
+            this.handlePopoverClose();
+            this.props.onClick(city, isLeft);
+        }
 
 
-    return (
-        <DragDropContext onDragEnd={(result) => onDragEnd(result, props.hand)}>
-        <Droppable droppableId="droppable" direction="horizontal">
-        {(provided, snapshot) => (
-        <Grid container
-            direction="row"
-            justify="flex-start"
-            alignItems="flex-start"
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-        >
-            {props.hand.map( (city, idx) =>
-                <Draggable key={city} draggableId={city} index={idx}>
-                    {(provided, snapshot) => (
-                    <Grid item
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                    >
-                        <CityCard title={city} onClick={props.onClick} />
+        return (
+            <Grid container
+                direction="row"
+                justify="flex-start"
+                alignItems="flex-start"
+            >
+                {this.props.hand.map( (city) =>
+                    <Grid key={city} item>
+                        <CityCard title={city} onClick={(event) => this.handlePopoverOpen(event, city)} />
+                        <Popover
+                            id={city}
+                            open={openedPopoverId === city}
+                            anchorEl={anchorEl}
+                            onClose={this.handlePopoverClose}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'center',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'center',
+                            }}
+                        >
+                            <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
+                                <IconButton onClick={() => handleButton(city, true)}><KeyboardArrowLeftIcon /></IconButton>
+                                <IconButton onClick={() => handleButton(city, false)}><KeyboardArrowRightIcon /></IconButton>
+                            </ButtonGroup>
+                        </Popover>
                     </Grid>
-                    )}
-                </Draggable>
-            )}
-        </Grid>
-        )}
-        </Droppable>
-        </DragDropContext>
-    );
+                )}
+            </Grid>
+        );
+    }
 }

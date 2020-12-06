@@ -1,6 +1,7 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 
 import { cities } from './static/cities'
+import { bonuses } from './static/bonuses'
 import { drawCard } from './moves/DrawCard.js'
 import { playCard } from './moves/PlayCard.js'
 import { scoreCards } from './moves/ScoreCards.js'
@@ -59,7 +60,14 @@ function setupGame (ctx) {
     let tableau = []
     for (let i = 0; i < 6; i++){
         tableau.push(supply.pop());
-    }    
+    }
+
+    let gameBonuses = {}
+    for (let bonus in bonuses) {
+        gameBonuses[bonus] = bonuses[bonus].points;
+    }
+    console.log(gameBonuses)
+
 
     return {
             cells: cells,
@@ -67,7 +75,8 @@ function setupGame (ctx) {
             players: players,
             supply: supply,
             discard: discard,
-            tableau: tableau
+            tableau: tableau,
+            bonuses: gameBonuses,
         };
 }
 
