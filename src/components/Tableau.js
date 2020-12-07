@@ -22,7 +22,7 @@ export default function Tableau(props) {
         >
             {props.tableau.map( (city, idx) =>
                 <Grid key={city} item>
-                    <CityCard title={city} onClick={props.onClick} />
+                    <CityCard title={city} onClick={(event, id) => 0} />
                 </Grid>
             )}
         </Grid>

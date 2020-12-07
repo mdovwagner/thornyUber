@@ -33,14 +33,23 @@ function checkAll(cityStatus, currentPlayer, bonus) {
     return (count === bonuses[bonus].regions.length);
 }
 
+function isValidCities(player, cities) {
+    return true;
+}
+
+
 export function placeHouses(G, ctx) {
     console.log("Place Houses");
     
     let player = G.players[ctx.currentPlayer]
     let cities = player.selectedCities;
-    for (let city in cities) {
-        G.cityStatus[cities[city]][ctx.currentPlayer] = true;
-        player.houses -= 1;
+    if (isValidCities(player, cities)) {
+        for (let city in cities) {
+            G.cityStatus[cities[city]][ctx.currentPlayer] = true;
+            player.houses -= 1;
+        }
+    } else {
+        return INVALID_MOVE;
     }
 
 

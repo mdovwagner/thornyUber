@@ -25,21 +25,21 @@ export function scoreCards(G, ctx) {
     // Check for bonuses
     if (player.tableau.length === 7) {
         // If any bonuses exist
-        if (G.bonuses[bonuses.Distance7].length > 0) {
+        if (G.bonuses["Distance7"].length > 0) {
             // Add bonus to player's bonuses
-            player.bonuses[bonuses.Distance7].push(G.bonuses[bonuses.Distance7][0])
+            player.bonuses["Distance7"].push(G.bonuses["Distance7"][0])
             // Remove bonus from pile
-            G.bonuses[bonuses.Distance7].shift()
+            G.bonuses["Distance7"].shift()
         }
     }
     if (player.tableau.length === 6) {
-        if (G.bonuses[bonuses.Distance6].length > 0) {
-            if (!player.bonuses[bonuses.Distance6]) player.bonuses[bonuses.Distance6] = [];
-            player.bonuses[bonuses.Distance6].push(G.bonuses[bonuses.Distance6][0])
-            G.bonuses[bonuses.Distance6].shift()
+        if (G.bonuses["Distance6"].length > 0) {
+            if (!player.bonuses["Distance6"]) player.bonuses["Distance6"] = [];
+            player.bonuses["Distance6"].push(G.bonuses["Distance6"][0])
+            G.bonuses["Distance6"].shift()
         }
     }
-    if (player.tableau.length === 1) {
+    if (player.tableau.length === 5) {
         if (G.bonuses["Distance5"].length > 0) {
             if (!player.bonuses["Distance5"]) player.bonuses["Distance5"] = [];
             player.bonuses["Distance5"].push(G.bonuses["Distance5"][0])

@@ -27,7 +27,7 @@ export class Player extends React.Component {
         return (
             <div style={hStyle}>
                 <h3>Hand</h3>
-                <Hand hand={player.hand} onClick={this.props.playCard} />
+                <Hand hand={player.hand} onClick={this.props.playCard} tableau={player.tableau}/>
                 <h3>Tableau</h3>
                 <Tableau tableau={player.tableau} />
                 <Grid container
@@ -44,7 +44,7 @@ export class Player extends React.Component {
                     {/* Bonuses */}
                     {Object.keys(player.bonuses).map((bonus) => 
                         player.bonuses[bonus].map((point) =>
-                            <BonusChip bonus={bonus} point={point} />
+                            <BonusChip key={bonus + point} bonus={bonus} point={point} />
                         )
                     )}
             </div>

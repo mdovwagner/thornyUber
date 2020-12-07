@@ -15,11 +15,11 @@ import { officials } from './static/officials';
 import { carriages } from './static/carriages';
 
 function isGameOver(G, ctx) {
-    for (let player in ctx.players) {
+    for (let player in G.players) {
         // Check if all houses are gone
-        if (ctx.players[player].houses === 0) return true;
+        if (G.players[player].houses === 0) return true;
         // Check if carriage is 7
-        if (ctx.players[player].carriageNumber === 7) return true;
+        if (G.players[player].carriageNumber === 7) return true;
     }
     return false;
 }
@@ -34,17 +34,30 @@ function isLastTurn(G, ctx) {
 
 function getWinner(G, ctx) {
     let points = Array(ctx.numPlayers).fill(0);
-    for (let player in ctx.players) {
+    for (let player in G.players) {
+        console.log(G.players)
         // + Carriage Points
-        points[player] += carriages[ctx.players[player].carriageNumber].points
+        points[player] += carriages[G.players[player].carriageNumber].points
         // + Bonus Tiles
-        for (let bonus in ctx.players[player].bonuses) {
-            points[player] += ctx.players[player].bonuses[bonus].points;
+        for (let bonus in G.players[player].bonuses) {
+            for (let i in G.players[player].bonuses[bonus]){
+                points[player] += G.players[player].bonuses[bonus][i];
+            }
         }
         // - Extra Houses
-        points[player] -= ctx.players[player].houses
+        points[player] -= G.players[player].houses
     } 
-    return points.indexOf(Math.max(points));
+    // Get max
+    let maxPlayer = -1;
+    let maxPoints = -21;
+    for (let p in points) {
+        if (points[p] > maxPoints) {
+            maxPoints = points[p];
+            maxPlayer = p;
+        }
+    }
+    console.log("winner: ", maxPlayer, maxPoints, points)
+    return maxPlayer;
 }
 
 
@@ -124,6 +137,7 @@ export const ThornyUber = {
 
     endIf: (G, ctx) => {
         if (isLastTurn(G, ctx)) {
+            console.log("Game Over");
             return { winner: getWinner(G, ctx) };
         }
       },

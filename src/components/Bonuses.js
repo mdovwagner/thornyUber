@@ -26,9 +26,9 @@ export default class Bonuses extends React.Component {
         return (
             <List>
                 {Object.keys(this.props.bonuses).map((bonus) =>
-                    <ListItem>
+                    <ListItem key={bonus}>
                             {this.props.bonuses[bonus].map((point) =>
-                            <BonusChip bonus={bonus} point={point} />
+                            <BonusChip key={bonus+point} bonus={bonus} point={point} />
                             )}
                             <span>{bonus}</span>
                     </ListItem>

@@ -174,6 +174,7 @@ export class ThornyUbersBoard extends React.Component {
           edgeArrowSize={0}
           edgeHandleSize={300}
           showGraphControls={true}
+          gridDotSize={0}
           nodes={Object.values(cities)}
           edges={edges}
           nodeTypes={GraphConfig.NodeTypes}

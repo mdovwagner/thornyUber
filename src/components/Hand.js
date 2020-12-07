@@ -22,10 +22,15 @@ export default class Hand extends React.Component {
     }
 
     handlePopoverOpen(event, popoverId) {
-        this.setState({
-            openedPopoverId: popoverId,
-            anchorEl: event.target,
-        });
+        // If no cards in tableau just place on left
+        if (this.props.tableau.length === 0) {
+            this.props.onClick(popoverId, true);
+        } else {
+            this.setState({
+                openedPopoverId: popoverId,
+                anchorEl: event.target,
+            });
+        }
     }
     handlePopoverClose() {
         this.setState({

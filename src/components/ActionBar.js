@@ -43,8 +43,10 @@ export default function ActionBar(props) {
                 break;
         }
     }
-
-
+    // End Game
+    if (props.gameover) {
+        message = "Winner: " + playerColors[props.gameover.winner].houseBackground;
+    }
     return (
         <Paper style={hStyle}>
             <h2>{message}</h2>

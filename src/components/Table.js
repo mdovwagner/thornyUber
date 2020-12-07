@@ -99,6 +99,7 @@ export class ThornyUbersTable extends React.Component {
           <ActionBar currentPlayer={this.props.ctx.currentPlayer} 
                     activePlayers={this.props.ctx.activePlayers} 
                     scoreCards={this.scoreCards} endTurn={this.endTurn}
+                    gameover={this.props.ctx.gameover}
           />
         </Grid>
         

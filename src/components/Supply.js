@@ -26,7 +26,7 @@ export default function Supply(props) {
             </Grid>
             <Grid container spacing={3} direction="row"
                 justify="space-evenly"
-                alignItems="space-evenly">
+                alignItems="center">
                     <Grid item xs={6}>
                         <CityCard title={props.cards[0]} onClick={props.onClick}/>
                     </Grid>
