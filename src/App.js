@@ -1,11 +1,13 @@
 import { Client } from 'boardgame.io/react';
 import { ThornyUber } from './Game';
 import { ThornyUbersTable } from './components/Table';
+import { SocketIO } from 'boardgame.io/multiplayer'
 
-const App = Client({
+
+const ThornyUberClient = Client({
   game: ThornyUber,
   board: ThornyUbersTable,
-  numPlayers: 2,
+  multiplayer: SocketIO({ server: 'localhost:8000' }),
 });
 
-export default App;
+export default ThornyUberClient;

@@ -1,17 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import ThornyUberClient from './App';
+import { ThornyUbersTable } from './components/Table'
+import { ThornyUber } from './Game'
+import { Lobby } from 'boardgame.io/react';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const NO_LOBBY = false;
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+if (NO_LOBBY) {
+  // Code for local deployment no lobby both players on one screen, no seperate server.
+  ReactDOM.render(
+    <React.StrictMode>
+      <ThornyUberClient playerID='0' />
+      <ThornyUberClient playerID='1' />
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
+} else {
+  const ENV = process.env.REACT_APP_ENV
+
+  let SERVER
+  if (ENV === 'dev') {
+    SERVER = `http://${window.location.hostname}:8000`  // Local
+  } else {
+    SERVER = `https://${window.location.hostname}` // Prod
+  }
+
+  // Render the lobby. This relies on a running server.
+  // TODO: Make the lobby way nicer looking!
+  ReactDOM.render(
+    <React.StrictMode>
+      <Lobby
+        gameServer={SERVER}
+        lobbyServer={SERVER}
+        gameComponents={[{ game: ThornyUber, board: ThornyUbersTable }]}
+      />
+    </React.StrictMode>,
+    document.getElementById('root')
+  )
+}
+
