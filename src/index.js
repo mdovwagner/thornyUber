@@ -6,7 +6,7 @@ import { ThornyUbersTable } from './components/Table'
 import { ThornyUber } from './Game'
 import { Lobby } from 'boardgame.io/react';
 
-const NO_LOBBY = false;
+const NO_LOBBY = process.env.REACT_APP_NO_LOBBY;
 
 if (NO_LOBBY) {
   // Code for local deployment no lobby both players on one screen, no seperate server.
