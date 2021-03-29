@@ -1,6 +1,7 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 import { cities } from '../static/cities.js';
 import { officials } from '../static/officials.js'
+import { shuffleCards } from './ShuffleCards.js';
 
 
 function discardCards(G, ctx) {
@@ -10,6 +11,7 @@ function discardCards(G, ctx) {
     }
     G.tableau = [];
     for (let i = 0; i < 6; i++) {
+        shuffleCards(G, ctx);
         G.tableau.push(G.supply.pop());
     }
 }

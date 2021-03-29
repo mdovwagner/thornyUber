@@ -2,6 +2,7 @@ import { officials } from '../static/officials.js'
 
 class PlayerModel {
     constructor () {
+        this.id = -1; // ID assigned by game
         this.cities = []
         this.selectedCities = [];
         this.tableau = []

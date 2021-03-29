@@ -15,9 +15,12 @@ export default function ActionBar(props) {
     let message = "Draw a Card";
     let buttons = []
     const hStyle = {
-        position: "fixed",
+        // position: "fixed",
         bottom: 0}
-    if (props.activePlayers !== null) {
+
+    if (props.playerID !== props.currentPlayer) {
+        message = "Wait for your turn..."
+    } else if (props.activePlayers !== null) {
         let stage = props.activePlayers[props.currentPlayer];
         switch(stage) {
             case "draw": 

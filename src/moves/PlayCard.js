@@ -1,27 +1,41 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
+import { edgeLookup } from '../static/edges';
 import { officials } from '../static/officials';
 
 
 export function playCard(G, ctx, city, onLeft) {
     console.log("Play Card");
-    G.players[ctx.currentPlayer].validOfficials[officials.POSTMASTER] = false;
-    if (G.players[ctx.currentPlayer].official === null) {
-        G.players[ctx.currentPlayer].validOfficials[officials.POSTALCARRIER] = true;
-        G.players[ctx.currentPlayer].validOfficials[officials.CARTWRIGHT] = true;
+    let player = G.players[ctx.currentPlayer];
+    player.validOfficials[officials.POSTMASTER] = false;
+    if (player.official === null) {
+        player.validOfficials[officials.POSTALCARRIER] = true;
+        player.validOfficials[officials.CARTWRIGHT] = true;
     }
     
     // Take card from hand and add it to tableau on left or right side.
-    let playerHand = G.players[ctx.currentPlayer].hand;
 
-    if (!playerHand.includes(city)) {
+    if (!player.hand.includes(city)) {
+        // Can't play a city you don't have
+        return INVALID_MOVE;
+    }
+    
+    // Make sure the city is adjacent on the graph
+    // if (edgeLookup[city][]
+    var neighboringCity = (onLeft) ? player.tableau[0] : player.tableau.slice(-1)[0]; // Leftmost or rightmost card in tableau
+    console.log(edgeLookup[city], neighboringCity);
+    
+    if (player.tableau.length > 0 && edgeLookup[city][neighboringCity] != 0) {
+        // Has at least 1 card down AND the cards don't match
         return INVALID_MOVE;
     }
 
-    playerHand.splice(playerHand.indexOf(city),1);
+
+
+    player.hand.splice(player.hand.indexOf(city),1);
     if (onLeft) {
-        G.players[ctx.currentPlayer].tableau.unshift(city)
+        player.tableau.unshift(city)
     } else {
-        G.players[ctx.currentPlayer].tableau.push(city)
+        player.tableau.push(city)
     }
     ctx.events.setStage("score");
 }

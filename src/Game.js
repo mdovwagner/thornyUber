@@ -28,7 +28,7 @@ function isLastTurn(G, ctx) {
     // Conditions to win:
     // All houses gone, or carriage 7
     // AND it's the final person's turn
-    return isGameOver(G, ctx) && (ctx.currentPlayer == ctx.numPlayers - 1);
+    return isGameOver(G, ctx) && (ctx.currentPlayer === ctx.numPlayers - 1);
 
 }
 
@@ -67,10 +67,14 @@ function setupGame (ctx) {
     for (const city in cities) {
         cityStatus[city] = Array(ctx.numPlayers).fill(false); 
     }
+    // TEST
+    cityStatus["Salzburg"][0] = true;
+    cityStatus["Pilsen"][1] = true;
 
     let players = {}
     for (let i = 0; i < ctx.numPlayers; i++) {
         players[i] = new PlayerModel()
+        players[i].id = i;
     }
 
     let supply = []

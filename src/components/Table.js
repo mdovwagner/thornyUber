@@ -54,7 +54,7 @@ export class ThornyUbersTable extends React.Component {
   }
 
   render() {
-    let player = this.props.G.players[this.props.ctx.currentPlayer]
+    let player = this.props.G.players[this.props.playerID]
     const hStyle = { backgroundColor: "moccasin" };
     return (
       <Grid container style={hStyle} spacing={3}>
@@ -62,7 +62,7 @@ export class ThornyUbersTable extends React.Component {
           <Supply onClick={this.drawCard} cards={this.props.G.tableau} 
             deck={this.props.G.supply} discard={this.props.G.discard}/>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={6}>
           <ThornyUbersBoard 
             cityStatus = {this.props.G.cityStatus} 
             numPlayers = {this.props.ctx.numPlayers}
@@ -72,7 +72,7 @@ export class ThornyUbersTable extends React.Component {
             ctx = {this.props.ctx}
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Bonuses bonuses={this.props.G.bonuses} />
         </Grid>
         <Grid item xs={2}>
@@ -97,6 +97,7 @@ export class ThornyUbersTable extends React.Component {
         </Grid>
         <Grid item xs={12}>
           <ActionBar currentPlayer={this.props.ctx.currentPlayer} 
+                    playerID = {this.props.playerID}
                     activePlayers={this.props.ctx.activePlayers} 
                     scoreCards={this.scoreCards} endTurn={this.endTurn}
                     gameover={this.props.ctx.gameover}

@@ -36,7 +36,7 @@ export class Player extends React.Component {
                     alignItems="flex-start">
                     {houses.map((house, idx) =>
                         <Grid key={idx} item>
-                            <HomeIcon style={{ color: playerColors[this.props.currentPlayer].houseBackground }}/>
+                            <HomeIcon style={{ color: playerColors[player.id].houseBackground }}/>
                         </Grid>
                     )}
                     </Grid>

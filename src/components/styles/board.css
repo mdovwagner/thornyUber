@@ -1,4 +1,8 @@
 .graph {
     /* width: 700px; */
-    height: 30rem;
+    /* height: 30rem; */
+}
+
+.node:hover {
+    cursor: pointer;
 }

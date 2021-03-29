@@ -33,8 +33,15 @@ function checkAll(cityStatus, currentPlayer, bonus) {
     return (count === bonuses[bonus].regions.length);
 }
 
-function isValidCities(player, cities) {
-    return true;
+function isValidCities(player, cityNames) {
+    // One in each color?
+    let cityRegions = cityNames.map(city => cities[city].region);
+
+    let allSame = cityRegions.every(region => region === cityRegions[0]);
+    let hasDuplicates = cityRegions.filter((region, idx) => cityRegions.indexOf(region) != idx).length > 0;
+    console.log(cityRegions, allSame, hasDuplicates);
+
+    return allSame || !hasDuplicates;
 }
 
 
@@ -42,10 +49,10 @@ export function placeHouses(G, ctx) {
     console.log("Place Houses");
     
     let player = G.players[ctx.currentPlayer]
-    let cities = player.selectedCities;
-    if (isValidCities(player, cities)) {
-        for (let city in cities) {
-            G.cityStatus[cities[city]][ctx.currentPlayer] = true;
+    let cityNames = player.selectedCities;
+    if (isValidCities(player, cityNames)) {
+        for (let city in cityNames) {
+            G.cityStatus[cityNames[city]][ctx.currentPlayer] = true;
             player.houses -= 1;
         }
     } else {
@@ -78,11 +85,10 @@ export function placeHouses(G, ctx) {
             }
         }
     }
-
-    for (const card in G.players[ctx.currentPlayer].tableau) {
-        G.discard.unshift(cities[card]);
+    for (let card in player.tableau) {
+        G.discard.unshift(player.tableau[card]);
     }
-    G.players[ctx.currentPlayer].tableau = [];
+    player.tableau = [];
     endTurn(G, ctx);
 
 }

@@ -6,7 +6,7 @@ import Hand from './Hand';
 import Tableau from './Tableau';
 import './styles/card.css'
 import { playerColors } from '../static/playerColors'
-import { List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core';
+import { Card, List, ListItem, ListItemIcon, ListItemText, Paper, Typography } from '@material-ui/core';
 import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import BonusChip from './BonusChip';
 
@@ -24,16 +24,12 @@ export default class Bonuses extends React.Component {
             stroke: "black"
         }
         return (
-            <List>
+            <Card>
+                <Typography>Bonuses</Typography>
                 {Object.keys(this.props.bonuses).map((bonus) =>
-                    <ListItem key={bonus}>
-                            {this.props.bonuses[bonus].map((point) =>
-                            <BonusChip key={bonus+point} bonus={bonus} point={point} />
-                            )}
-                            <span>{bonus}</span>
-                    </ListItem>
+                    <BonusChip key={bonus} bonus={bonus} point={this.props.bonuses[bonus][0]} />
                 )}
-            </List>
+            </Card>
         );
     }
 }
