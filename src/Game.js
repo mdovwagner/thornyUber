@@ -68,9 +68,6 @@ function setupGame (ctx) {
     for (const city in cities) {
         cityStatus[city] = Array(ctx.numPlayers).fill(false); 
     }
-    // TEST
-    cityStatus["Salzburg"][0] = true;
-    cityStatus["Pilsen"][1] = true;
 
     let players = {}
     for (let i = 0; i < ctx.numPlayers; i++) {
