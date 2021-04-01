@@ -1,6 +1,6 @@
 export const playerColors = {
-    0: { background: 'red', houseBackground: 'red', color: 'white' },
-    1: { background: 'yellow', houseBackground: 'yellow', color: 'black' },
-    2: { background: 'lightgreen', houseBackground: 'green', color: 'white' },
-    3: { background: 'blue', houseBackground: 'blue', color: 'white' },
+    0: { background: '#f44336', houseBackground: '#f44336', color: 'white' },
+    1: { background: '#ffeb3b', houseBackground: '#ffeb3b', color: 'black' },
+    2: { background: '#4caf50', houseBackground: '#4caf50', color: 'white' },
+    3: { background: '#2196f3', houseBackground: '#2196f3', color: 'white' },
 }

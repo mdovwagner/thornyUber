@@ -7,6 +7,9 @@ import CityCardBack from './CardBack';
 
 
 
+function renderCity(props,city) {
+    return (<CityCard title={city} onClick={props.onClick} onMouseEnter={e => props.highlightCity(city)} onMouseLeave={e => props.unhighlightCity(city)}/>);
+}
 
 
 export default function Supply(props) {
@@ -28,22 +31,22 @@ export default function Supply(props) {
                 justify="space-evenly"
                 alignItems="center">
                     <Grid item xs={4}>
-                        <CityCard title={props.cards[0]} onClick={props.onClick}/>
+                        {renderCity(props, props.cards[0])}
                     </Grid>
                     <Grid item xs={4}>
-                        <CityCard title={props.cards[1]} onClick={props.onClick}/>
+                        {renderCity(props, props.cards[1])}
                     </Grid>
                     <Grid item xs={4}>
-                        <CityCard title={props.cards[2]} onClick={props.onClick}/>
+                        {renderCity(props, props.cards[2])}
                     </Grid>
                     <Grid item xs={4}>
-                        <CityCard title={props.cards[3]} onClick={props.onClick}/>
+                        {renderCity(props, props.cards[3])}
                     </Grid>
                     <Grid item xs={4}>
-                        <CityCard title={props.cards[4]} onClick={props.onClick}/>
+                        {renderCity(props, props.cards[4])}
                     </Grid>
                     <Grid item xs={4}>
-                        <CityCard title={props.cards[5]} onClick={props.onClick}/>
+                        {renderCity(props, props.cards[5])}
                     </Grid>
             </Grid>
         </Paper>

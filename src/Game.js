@@ -4,6 +4,7 @@ import { cities } from './static/cities'
 import { bonuses } from './static/bonuses'
 import { drawCard } from './moves/DrawCard.js'
 import { playCard } from './moves/PlayCard.js'
+import { trashRoute } from './moves/TrashRoute.js'
 import { scoreCards } from './moves/ScoreCards.js'
 import { placeHouses } from './moves/PlaceHouses.js'
 import { pickOfficial } from './moves/PickOfficial.js'
@@ -120,7 +121,7 @@ const turns = {
     },
     stages: {
         draw : { moves: { drawCard } },
-        play: { moves: { playCard, pickOfficial } },
+        play: { moves: { playCard, pickOfficial, trashRoute } },
         score: { moves: { scoreCards, pickOfficial, endTurn } },
         place: { moves: { selectCity, placeHouses } },
         // administrator: { moves: { discardCard } } // -> draw card

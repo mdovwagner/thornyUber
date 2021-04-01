@@ -10,6 +10,7 @@ import { List, ListItem, ListItemIcon, ListItemText, Paper, Typography } from '@
 import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import SendIcon from '@material-ui/icons/Send';
 import DoneIcon from '@material-ui/icons/Done';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 export default function ActionBar(props) {
     let message = "Draw a Card";
@@ -28,6 +29,9 @@ export default function ActionBar(props) {
                 break;
             case "play": 
                 message = "Play a Card";
+                buttons = [<Button variant="contained" color="primary" onClick={props.trashRoute} endIcon={<DeleteIcon />}>
+                    Trash Route
+                        </Button>]
                 break;
             case "score": 
                 message = "Score a Route";
@@ -52,7 +56,7 @@ export default function ActionBar(props) {
     }
     return (
         <Paper style={hStyle}>
-            <h2>{message}</h2>
+            <Button disableRipple>{message}</Button>
             {buttons}
         </Paper>
     );

@@ -55,7 +55,8 @@ export default class Hand extends React.Component {
             >
                 {this.props.hand.map( (city) =>
                     <Grid key={city} item>
-                        <CityCard title={city} onClick={(event) => this.handlePopoverOpen(event, city)} />
+                        <CityCard title={city} onClick={(event) => this.handlePopoverOpen(event, city)} onMouseEnter={e => console.log("hover")}
+                        onMouseEnter={e => this.props.highlightCity(city)} onMouseLeave={e => this.props.unhighlightCity(city)}/>
                         <Popover
                             id={city}
                             open={openedPopoverId === city}

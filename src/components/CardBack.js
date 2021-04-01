@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 export default function CityCardBack(props) {
     const city = cities[props.title];
-    const bgStyle = { fill: "brown", stroke: "black" };
+    const bgStyle = { fill: "#4e342e", stroke: "black" };
     const labelStyle = { fill: "tan", stroke: "black" };
     const textStyle = { fontFamily: "Gamja Flower" };
     return (

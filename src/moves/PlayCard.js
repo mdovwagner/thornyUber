@@ -22,7 +22,7 @@ export function playCard(G, ctx, city, onLeft) {
     // Make sure the city is adjacent on the graph
     // if (edgeLookup[city][]
     var neighboringCity = (onLeft) ? player.tableau[0] : player.tableau.slice(-1)[0]; // Leftmost or rightmost card in tableau
-    console.log(edgeLookup[city], neighboringCity);
+    console.log(player);
     
     if (player.tableau.length > 0 && edgeLookup[city][neighboringCity] != 0) {
         // Has at least 1 card down AND the cards don't match

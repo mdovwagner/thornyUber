@@ -1,16 +1,35 @@
 import React from 'react';
 import CityCard from './Card';
 import Grid from '@material-ui/core/Grid';
+import { cities } from '../static/cities';
 
-function onDragEnd(result, tableau) {
-    // dropped outside the list
-    if (!result.destination) {
-        return;
+
+function renderCity(city) {
+    const labelStyle = {
+        fill: cities[city].color,
+        strokeWidth: 2,
+        stroke: "black"
     }
+    const textStyle = {
+        fontFamily: "Gamja Flower"
+    }
+    const fgStyle = {
+        fill: "tan",
+        strokeWidth: 2,
+        stroke: "black"
+    }
+    
+    let textWidth = city.length*8;
 
-    const [removed] = tableau.splice(result.source.index, 1);
-    tableau.splice(result.destination.index, 0, removed);
+    return (<svg width="90" height="50"
+        >
+        <ellipse style={fgStyle} cx={42} cy={18} rx="40" ry="15" />
+        <rect x={42 - textWidth/2} y={18 + 10} width={textWidth} height="20" style={labelStyle}>{city}</rect>
+        <text x={42} y={18+25} textAnchor="middle" style={textStyle}>{city}</text>
+    </svg>
+    );
 }
+
 export default function Tableau(props) {
 
 
@@ -22,7 +41,11 @@ export default function Tableau(props) {
         >
             {props.tableau.map( (city, idx) =>
                 <Grid key={city} item>
-                    <CityCard title={city} onClick={(event, id) => 0} />
+                    {/* <CityCard title={city} onClick={(event, id) => 0} 
+                            onMouseEnter={e => props.highlightCity(city)} 
+                            onMouseLeave={e => props.unhighlightCity(city)} 
+                    /> */}
+                    {renderCity(city)}
                 </Grid>
             )}
         </Grid>
