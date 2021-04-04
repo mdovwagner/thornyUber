@@ -1,7 +1,8 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { endTurn } from './EndTurn';
+import { checkGameOver } from './CheckGameOver';
 import { bonuses } from '../static/bonuses';
 import { cities } from '../static/cities';
+import { endTurn } from './EndTurn';
 
 
 function checkRegion(cityStatus, currentPlayer, bonus) {

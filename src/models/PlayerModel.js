@@ -12,10 +12,10 @@ class PlayerModel {
         this.houses = 20 // Start with 20 houses
         this.official = null // Which support the player is using.
         this.validOfficials = {
-            "postmaster" : true,
-            "postalCarrier" : true,
-            "administrator" : true,
-            "cartwright" : true,
+            "postmaster" : false,
+            "postalCarrier" : false,
+            "administrator" : false,
+            "cartwright" : false,
         }
     }
 }

@@ -14,7 +14,7 @@ function renderCity(props,city) {
 
 export default function Supply(props) {
     return (
-        <Paper>
+        <Paper style={{ backgroundColor: "tan" }}>
             <Grid container direction="row"
                 justify="space-evenly"
                 alignItems="flex-start">

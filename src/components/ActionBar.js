@@ -11,16 +11,21 @@ import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import SendIcon from '@material-ui/icons/Send';
 import DoneIcon from '@material-ui/icons/Done';
 import DeleteIcon from '@material-ui/icons/Delete';
+import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 
 export default function ActionBar(props) {
     let message = "Draw a Card";
     let buttons = []
     const hStyle = {
         // position: "fixed",
+        backgroundColor: "tan",
         bottom: 0}
 
     if (props.playerID !== props.currentPlayer) {
-        message = "Wait for your turn..."
+        message = "Wait for your turn...";
+        buttons = [<Button key="timer" variant="contained" color="primary" onClick={props.trashRoute} endIcon={<HourglassEmptyIcon />}>
+                    David Green taking too long...
+                    </Button>]
     } else if (props.activePlayers !== null) {
         let stage = props.activePlayers[props.currentPlayer];
         switch(stage) {
@@ -29,22 +34,22 @@ export default function ActionBar(props) {
                 break;
             case "play": 
                 message = "Play a Card";
-                buttons = [<Button variant="contained" color="primary" onClick={props.trashRoute} endIcon={<DeleteIcon />}>
+                buttons = [<Button key="delete" variant="contained" color="primary" onClick={props.trashRoute} endIcon={<DeleteIcon />}>
                     Trash Route
                         </Button>]
                 break;
             case "score": 
                 message = "Score a Route";
-                buttons = [<Button variant="contained" color="primary" onClick={props.scoreCards} endIcon={<SendIcon />}>
+                buttons = [<Button key="score" variant="contained" color="primary" onClick={props.scoreCards} endIcon={<SendIcon />}>
                             Score
                         </Button>,
-                        <Button variant="contained" color="primary" onClick={props.endTurn} endIcon={<DoneIcon />}>
+                        <Button key="done" variant="contained" color="primary" onClick={props.endTurn} endIcon={<DoneIcon />}>
                             End Turn
                         </Button>]
                 break;
             case "place": 
                 message = "Place Houses";
-                buttons = [<Button variant="contained" color="primary" onClick={props.endTurn} endIcon={<DoneIcon />}>
+                buttons = [<Button key="done" variant="contained" color="primary" onClick={props.endTurn} endIcon={<DoneIcon />}>
                             Done
                         </Button>]
                 break;
@@ -52,7 +57,7 @@ export default function ActionBar(props) {
     }
     // End Game
     if (props.gameover) {
-        message = "Winner: " + playerColors[props.gameover.winner].houseBackground;
+        message = "Winner: Player" + props.gameover.winner;
     }
     return (
         <Paper style={hStyle}>

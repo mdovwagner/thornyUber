@@ -50,11 +50,11 @@ export default class Hand extends React.Component {
         return (
             <Grid container
                 direction="row"
-                justify="flex-start"
+                justify="center"
                 alignItems="flex-start"
             >
-                {this.props.hand.map( (city) =>
-                    <Grid key={city} item>
+                {this.props.hand.map( (city, idx) =>
+                    <Grid key={city+idx} item>
                         <CityCard title={city} onClick={(event) => this.handlePopoverOpen(event, city)} onMouseEnter={e => console.log("hover")}
                         onMouseEnter={e => this.props.highlightCity(city)} onMouseLeave={e => this.props.unhighlightCity(city)}/>
                         <Popover

@@ -14,52 +14,9 @@ import { endTurn } from './moves/EndTurn.js'
 import PlayerModel from './models/PlayerModel'
 import { officials } from './static/officials';
 import { carriages } from './static/carriages';
+import { checkGameOver } from './moves/CheckGameOver';
 
-function isGameOver(G, ctx) {
-    for (let player in G.players) {
-        // Check if all houses are gone
-        if (G.players[player].houses === 0) return true;
-        // Check if carriage is 7
-        if (G.players[player].carriageNumber === 7) return true;
-    }
-    return false;
-}
 
-function isLastTurn(G, ctx) {
-    // Conditions to win:
-    // All houses gone, or carriage 7
-    // AND it's the final person's turn
-    return isGameOver(G, ctx) && (ctx.currentPlayer === ctx.numPlayers - 1);
-
-}
-
-function getWinner(G, ctx) {
-    let points = Array(ctx.numPlayers).fill(0);
-    for (let player in G.players) {
-        console.log(G.players)
-        // + Carriage Points
-        points[player] += carriages[G.players[player].carriageNumber].points
-        // + Bonus Tiles
-        for (let bonus in G.players[player].bonuses) {
-            for (let i in G.players[player].bonuses[bonus]){
-                points[player] += G.players[player].bonuses[bonus][i];
-            }
-        }
-        // - Extra Houses
-        points[player] -= G.players[player].houses
-    } 
-    // Get max
-    let maxPlayer = -1;
-    let maxPoints = -21;
-    for (let p in points) {
-        if (points[p] > maxPoints) {
-            maxPoints = points[p];
-            maxPlayer = p;
-        }
-    }
-    console.log("winner: ", maxPlayer, maxPoints, points)
-    return maxPlayer;
-}
 
 
 function setupGame (ctx) {
@@ -123,6 +80,9 @@ const turns = {
         place: { moves: { selectCity, placeHouses } },
         // administrator: { moves: { discardCard } } // -> draw card
     },
+    onEnd: (G, ctx) => {
+        G.players[ctx.currentPlayer].selectedCities = [];
+    }
 }
 
 export const ThornyUber = {
@@ -137,10 +97,10 @@ export const ThornyUber = {
     turn: turns,
 
 
-    endIf: (G, ctx) => {
-        if (isLastTurn(G, ctx)) {
-            console.log("Game Over");
-            return { winner: getWinner(G, ctx) };
-        }
-      },
+    // endIf: (G, ctx) => {
+    //     if (isLastTurn(G, ctx)) {
+    //         console.log("Game Over");
+    //         return { winner: getWinner(G, ctx) };
+    //     }
+    //   },
 };

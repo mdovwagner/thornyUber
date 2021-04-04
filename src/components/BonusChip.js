@@ -82,7 +82,7 @@ export default class BonusChip extends React.Component {
             stroke: "black"
         }
         const shieldStyle = {
-            fill: "tan",
+            fill: "#B99976",
             stroke: "black"
         }
         return (

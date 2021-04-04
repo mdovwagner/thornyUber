@@ -26,7 +26,7 @@ export class ThornyUbersBoard extends React.Component {
         }
     }
 
-    renderEdge(edge) {
+    renderEdge(edge, i) {
         const edgeStyle = {
             strokeWidth: 2,
             stroke: "black"
@@ -35,14 +35,12 @@ export class ThornyUbersBoard extends React.Component {
         let y1 = cities[edge.source].y;
         let x2 = cities[edge.target].x;
         let y2 = cities[edge.target].y;
-        return (<line x1={x1} y1={y1} x2={x2} y2={y2} style={edgeStyle} ref={this.edgeRefs[edge.source+"."+edge.target]}/>
+        return (<line key={"edge"+i} x1={x1} y1={y1} x2={x2} y2={y2} style={edgeStyle} ref={this.edgeRefs[edge.source+"."+edge.target]}/>
 
         );
     }
 
     highlightCity(city) {
-        console.log(this.edgeRefs)
-        console.log(this.cityRefs[city])
         Object.values(this.cityRefs).forEach(ref => {
             ref.current.style.opacity = "50%";
         });
@@ -60,7 +58,6 @@ export class ThornyUbersBoard extends React.Component {
         let neighborEdges1 = Object.keys(edgeLookup[city]).map( neighbor => neighbor + "." + city);
         let neighborEdges2 = Object.keys(edgeLookup[city]).map( neighbor => city + "." + neighbor);
         let neighborEdges = neighborEdges1.concat(neighborEdges2).filter(edge => (edge in this.edgeRefs));
-        console.log(neighborEdges)
         neighborEdges.forEach(edge => {
             this.edgeRefs[edge].current.style.opacity = "100%";
         })
@@ -76,17 +73,17 @@ export class ThornyUbersBoard extends React.Component {
     }
 
 
-    renderHouse(city, i) {
+    renderHouse(city, i, citySelected) {
         let dx = [-45, -5, -25, +15];
         let dy = [-35, -40, -40, -35];
         let move = "translate(" + (city.x + dx[i]) + " " + (city.y + dy[i]) + ") scale(0.05)"
-        const houseExists = this.props.cityStatus[city.id][i]
+        const houseExists = this.props.cityStatus[city.id][i];
         const houseColor = (playerColors[i] || {}).houseBackground
         const houseStyle = {
             fill: houseColor,
             strokeWidth: 10,
             stroke: "black",
-            display: (houseExists) ? "default" : "none"
+            visibility: (houseExists) ? "visible" : "hidden"
         }
         return (
             <g transform={move} style={houseStyle}>
@@ -96,7 +93,7 @@ export class ThornyUbersBoard extends React.Component {
         );
     }
 
-    renderCity(city) {
+    renderCity(city, i) {
         const labelStyle = {
             fill: city.color,
             strokeWidth: 2,
@@ -106,7 +103,7 @@ export class ThornyUbersBoard extends React.Component {
             fontFamily: "Gamja Flower"
         }
         const fgStyle = {
-            fill: "tan",
+            fill: "#B99976",
             strokeWidth: 2,
             stroke: "black"
         }
@@ -118,7 +115,7 @@ export class ThornyUbersBoard extends React.Component {
         
         let textWidth = city.id.length*8;
 
-        return (<svg onClick={(event) => {this.props.selectCity(city.id)}}
+        return (<svg key={"city"+i} onClick={(event) => {this.props.selectCity(city.id)}}
             onMouseEnter={e => this.props.highlightCity(city.id)}
             onMouseLeave={e => this.unhighlightCity(city.id)}
             className="node"
@@ -127,10 +124,10 @@ export class ThornyUbersBoard extends React.Component {
             <ellipse style={fgStyle} cx={city.x} cy={city.y} rx="40" ry="15" />
             <rect x={city.x - textWidth/2} y={city.y + 10} width={textWidth} height="20" style={labelStyle}>{city.id}</rect>
             <text x={city.x} y={city.y+25} textAnchor="middle" style={textStyle}>{city.id}</text>
-                {this.renderHouse(city,0)}
-                {this.renderHouse(city,1)}
-                {this.renderHouse(city,2)}
-                {this.renderHouse(city,3)}
+                {this.renderHouse(city,0, citySelected)}
+                {this.renderHouse(city,1, citySelected)}
+                {this.renderHouse(city,2, citySelected)}
+                {this.renderHouse(city,3, citySelected)}
         </svg>
                     // <City
                     //     selectedCities={this.props.selectedCities}
@@ -157,21 +154,20 @@ export class ThornyUbersBoard extends React.Component {
     }
 
     render() {
-        let scale = 0.8;
-        return (<Paper >
-            <Typography>Board</Typography>
-            <svg width={650 * 0.8} height={500 * 0.8} viewBox="0 0 650 500" >
+        let scale = 1;
+        return (<Paper style={{ backgroundColor: "tan" }}>
+            <svg width={650 * scale} height={450 * scale} viewBox="0 0 650 470" >
                 <defs>
                     <style type="text/css">@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Gamja+Flower|Xanh+Mono');</style>
                 </defs>
                 {this.renderBackground()}
             {/* Edges */}
-                {Object.values(edges).map(edge =>
-                    this.renderEdge(edge)
+                {Object.values(edges).map((edge, i) =>
+                    this.renderEdge(edge, i)
                 )}
             {/* Nodes */}
-                {Object.values(cities).map(city =>
-                    this.renderCity(city)
+                {Object.values(cities).map((city, i) =>
+                    this.renderCity(city, i)
                 )}
             </svg>
         </Paper>)

@@ -23,9 +23,10 @@ export function scoreCards(G, ctx) {
     }
 
     // Check for bonuses
-    if (player.tableau.length === 7) {
+    if (player.tableau.length >= 7) {
         // If any bonuses exist
         if (G.bonuses["Distance7"].length > 0) {
+            if (!player.bonuses["Distance7"]) player.bonuses["Distance7"] = [];
             // Add bonus to player's bonuses
             player.bonuses["Distance7"].push(G.bonuses["Distance7"][0])
             // Remove bonus from pile

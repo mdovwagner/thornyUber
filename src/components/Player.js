@@ -61,7 +61,7 @@ export class Player extends React.Component {
                 <text x="18" y="25" textAnchor="middle" transform="translate(70 20)">{carriages[num].points}</text>
                 {/* Wheel */}
                 {dxs.map( (x, i) =>
-                    <svg>
+                    <svg key={x}>
                     <circle cx={x} cy={dys[i]} r="8" style={wheelStyle} />
                     <line x1={x-10} y1={dys[i]} x2={x+10} y2={dys[i]} stroke="black"/>
                     <line x1={x} y1={dys[i]-10} x2={x} y2={dys[i]+10} stroke="black"/>
@@ -82,38 +82,47 @@ export class Player extends React.Component {
         const bonusesStr = Object.keys(player.bonuses).map((bonus) => "Bonus: " + bonuses[bonus].id + " " + bonuses[bonus].points.reduce((x,y)=> x+y) + ", ")
 
         return (
-            <Paper>
+            <Grid container
+                spacing={3}
+                direction="row"
+                justify="flex-start"
+                alignItems="flex-start">
+                <Grid item xs={4}>
+                <Paper style={{ backgroundColor: "tan" }}>
+                    Hand
+                    <Hand hand={player.hand} onClick={this.props.playCard} tableau={player.tableau} highlightCity={this.props.highlightCity} unhighlightCity={this.props.unhighlightCity} />
+                </Paper>
+            </Grid>
+            <Grid item xs={8}>
+            <Paper style={{ backgroundColor: "tan" }}>
+                Tableau
+                <Tableau tableau={player.tableau} highlightCity={this.props.highlightCity} unhighlightCity={this.props.unhighlightCity}/>
                 <Grid container
                     direction="row"
                     justify="flex-start"
                     alignItems="flex-start">
-                <Grid item xs={4}>Hand
-                <Hand hand={player.hand} onClick={this.props.playCard} tableau={player.tableau} highlightCity={this.props.highlightCity} unhighlightCity={this.props.unhighlightCity} />
-                </Grid>
-                <Grid item xs={4}>
-                Tableau
-                <Tableau tableau={player.tableau} highlightCity={this.props.highlightCity} unhighlightCity={this.props.unhighlightCity}/>
-                </Grid>
-                <Grid item xs={2}container
+                <Grid item xs={3} container
                     direction="row"
                     justify="flex-start"
                     alignItems="flex-start">
                     {houses.map((house, idx) =>
-                        <Grid key={idx} item>
+                        <Grid key={idx.toString()} item>
                             <HomeIcon style={{ color: playerColors[player.id].houseBackground, stroke: "black"}}/>
                         </Grid>
                     )}
                 </Grid>
-                    <Grid item xs={2}>Carriage: {this.renderCarriage(player.carriageNumber)}
+                    <Grid item xs={9}>Carriage: {this.renderCarriage(player.carriageNumber)}
                     {/* Bonuses */}
                     {Object.keys(player.bonuses).map((bonus) => 
                         player.bonuses[bonus].map((point) =>
-                            <BonusChip key={bonus + point} bonus={bonus} point={point} />
+                            <BonusChip key={bonus.toString() + "."+ point.toString()} bonus={bonus} point={point} />
                         )
                     )}
                     </Grid>
             </Grid>
             </Paper>
+            </Grid>
+            </Grid>
         );
     }
 }
