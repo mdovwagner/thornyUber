@@ -7,7 +7,7 @@ function isGameOver(G, ctx) {
         // Check if all houses are gone
         if (G.players[player].houses === 0) return true;
         // Check if carriage is 7
-        if (G.players[player].carriageNumber === 3) return true;
+        if (G.players[player].carriageNumber === 7) return true;
     }
     return false;
 }

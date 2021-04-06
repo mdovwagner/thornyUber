@@ -3,6 +3,7 @@ import { officials } from '../static/officials';
 import { shuffleCards } from './ShuffleCards';
 
 export function drawCard(G, ctx, city) {
+    G.newTurn = false;
     console.log("Draw Card");
     G.players[ctx.currentPlayer].validOfficials[officials.ADMINISTRATOR] = false;
     if (G.players[ctx.currentPlayer].official === null) {

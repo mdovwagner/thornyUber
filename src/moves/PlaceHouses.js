@@ -3,6 +3,7 @@ import { checkGameOver } from './CheckGameOver';
 import { bonuses } from '../static/bonuses';
 import { cities } from '../static/cities';
 import { endTurn } from './EndTurn';
+import { changeMessage } from './Message';
 
 
 function checkRegion(cityStatus, currentPlayer, bonus) {
@@ -34,14 +35,16 @@ function checkAll(cityStatus, currentPlayer, bonus) {
     return (count === bonuses[bonus].regions.length);
 }
 
-function isValidCities(player, cityNames) {
+function isValidCities(G, ctx, cityNames) {
     // One in each color?
     let cityRegions = cityNames.map(city => cities[city].region);
 
     let allSame = cityRegions.every(region => region === cityRegions[0]);
     let hasDuplicates = cityRegions.filter((region, idx) => cityRegions.indexOf(region) != idx).length > 0;
     console.log(cityRegions, allSame, hasDuplicates);
-
+    if (hasDuplicates && !allSame) {
+        changeMessage(G, ctx, {valid: true, text: "Invalid House Placement", type: "error"});
+    }
     return allSame || !hasDuplicates;
 }
 
@@ -51,7 +54,7 @@ export function placeHouses(G, ctx) {
     
     let player = G.players[ctx.currentPlayer]
     let cityNames = player.selectedCities;
-    if (isValidCities(player, cityNames)) {
+    if (isValidCities(G, ctx, cityNames)) {
         for (let city in cityNames) {
             G.cityStatus[cityNames[city]][ctx.currentPlayer] = true;
             player.houses -= 1;

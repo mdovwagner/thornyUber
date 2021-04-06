@@ -43,6 +43,7 @@ export class ThornyUbersBoard extends React.Component {
     highlightCity(city) {
         Object.values(this.cityRefs).forEach(ref => {
             ref.current.style.opacity = "50%";
+            ref.current.style.stroke = 2;
         });
         this.props.selectedCities.forEach(sel => {
             this.cityRefs[sel].current.style.opacity = "100%";
@@ -51,6 +52,7 @@ export class ThornyUbersBoard extends React.Component {
             ref.current.style.opacity = "0%";
         });
         this.cityRefs[city].current.style.opacity = "100%"
+        this.cityRefs[city].current.style.strokeWidth = 4
         Object.keys(edgeLookup[city]).forEach(neighbor => {
             this.cityRefs[neighbor].current.style.opacity = "100%";
         });
@@ -66,6 +68,7 @@ export class ThornyUbersBoard extends React.Component {
     unhighlightCity(city) {
         Object.values(this.cityRefs).forEach(ref => {
             ref.current.style.opacity = "100%";
+            ref.current.style.strokeWidth = 2;
         });
         Object.values(this.edgeRefs).forEach(ref => {
             ref.current.style.opacity = "100%";
@@ -96,16 +99,13 @@ export class ThornyUbersBoard extends React.Component {
     renderCity(city, i) {
         const labelStyle = {
             fill: city.color,
-            strokeWidth: 2,
-            stroke: "black"
         }
         const textStyle = {
-            fontFamily: "Gamja Flower"
+            fontFamily: "Gamja Flower",
+            strokeWidth: 0,
         }
         const fgStyle = {
             fill: "#B99976",
-            strokeWidth: 2,
-            stroke: "black"
         }
         const citySelected = this.props.selectedCities.includes(city.id);
         if (citySelected) {
@@ -120,6 +120,7 @@ export class ThornyUbersBoard extends React.Component {
             onMouseLeave={e => this.unhighlightCity(city.id)}
             className="node"
             ref={this.cityRefs[city.id]}
+            style={{ strokeWidth: 2, stroke: "black"}}
             >
             <ellipse style={fgStyle} cx={city.x} cy={city.y} rx="40" ry="15" />
             <rect x={city.x - textWidth/2} y={city.y + 10} width={textWidth} height="20" style={labelStyle}>{city.id}</rect>

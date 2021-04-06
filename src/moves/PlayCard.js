@@ -1,6 +1,7 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 import { edgeLookup } from '../static/edges';
 import { officials } from '../static/officials';
+import { changeMessage } from './Message';
 
 
 export function playCard(G, ctx, city, onLeft) {
@@ -26,6 +27,7 @@ export function playCard(G, ctx, city, onLeft) {
     
     if (player.tableau.length > 0 && edgeLookup[city][neighboringCity] != 0) {
         // Has at least 1 card down AND the cards don't match
+        changeMessage(G, ctx, { valid: true, text: city+ " and "+neighboringCity + " are not adjacent.", type: "error" });
         return INVALID_MOVE;
     }
 

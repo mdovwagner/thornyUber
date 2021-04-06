@@ -7,13 +7,13 @@ import Tableau from './Tableau';
 import './styles/card.css'
 import { playerColors } from '../static/playerColors'
 import { List, ListItem, ListItemIcon, ListItemText, Paper, Typography } from '@material-ui/core';
-import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import SendIcon from '@material-ui/icons/Send';
 import DoneIcon from '@material-ui/icons/Done';
 import DeleteIcon from '@material-ui/icons/Delete';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 
 export default function ActionBar(props) {
+
     let message = "Draw a Card";
     let buttons = []
     const hStyle = {
@@ -23,7 +23,7 @@ export default function ActionBar(props) {
 
     if (props.playerID !== props.currentPlayer) {
         message = "Wait for your turn...";
-        buttons = [<Button key="timer" variant="contained" color="primary" onClick={props.trashRoute} endIcon={<HourglassEmptyIcon />}>
+        buttons = [<Button key="timer" variant="contained" color="primary" onClick={props.alertPlayer} endIcon={<HourglassEmptyIcon />}>
                     David Green taking too long...
                     </Button>]
     } else if (props.activePlayers !== null) {
@@ -60,9 +60,15 @@ export default function ActionBar(props) {
         message = "Winner: Player" + props.gameover.winner;
     }
     return (
+        
         <Paper style={hStyle}>
             <Button disableRipple>{message}</Button>
             {buttons}
+            {/* <Snackbar open={this.props.open} autoHideDuration={6000}>
+                <Alert severity="error">
+                    Invalid House Placement
+                </Alert>
+            </Snackbar> */}
         </Paper>
     );
 }

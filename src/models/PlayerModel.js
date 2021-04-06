@@ -16,7 +16,12 @@ class PlayerModel {
             "postalCarrier" : false,
             "administrator" : false,
             "cartwright" : false,
-        }
+        };
+        this.message = {
+            valid: false,
+            text: "",
+            type: "info", // error, warning, info, success  
+        };
     }
 }
 

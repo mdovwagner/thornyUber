@@ -5,5 +5,4 @@ export function endTurn(G, ctx) {
     console.log("End Turn");
     checkGameOver(G, ctx);
     ctx.events.endTurn();
-    
 }

@@ -3,6 +3,7 @@ import { ThornyUbersBoard } from './Board';
 import Hand from './Hand';
 import { createMuiTheme,makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Supply from './Supply';
+import SnackbarDialog from './SnackbarDialog';
 import Tableau from './Tableau';
 import Bonuses from './Bonuses';
 import './styles/card.css'
@@ -15,7 +16,8 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { officials } from '../static/officials';
-import { Dialog } from '@material-ui/core';
+import { Dialog, Snackbar } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import { DialogContent } from '@material-ui/core';
 import ActionBar from './ActionBar';
 import OtherTableaus from './OtherTableaus';
@@ -45,6 +47,14 @@ export class ThornyUbersTable extends React.Component {
   static propTypes = {
     events: PropTypes.any.isRequired,
   };
+
+  endMessage = () => {
+    this.props.moves.endMessage(this.props.playerID);
+  }
+
+  alertPlayer = () => {
+    this.props.moves.changeMessage({valid: true, text: "You're taking too long. Stop being a David Green", type: "warning"});
+  }
 
   drawCard = (event, city) => {
     console.log("Draw " + city);
@@ -91,6 +101,8 @@ export class ThornyUbersTable extends React.Component {
       bgColor = playerColors[this.props.ctx.gameover.winner].houseBackground;
     }
     const hStyle = { backgroundColor: bgColor };
+
+    const myTurn = (this.props.ctx.currentPlayer === this.props.playerID);
     return (
       <ThemeProvider theme={theme}>
       <Grid container style={hStyle} spacing={3}>
@@ -151,11 +163,13 @@ export class ThornyUbersTable extends React.Component {
                     activePlayers={this.props.ctx.activePlayers} 
                     scoreCards={this.scoreCards} endTurn={this.endTurn}
                     trashRoute={this.trashRoute}
+                    alertPlayer={this.alertPlayer}
                     gameover={this.props.ctx.gameover}
           />
         </Grid>
         
       </Grid>
+      <SnackbarDialog playerID = {this.props.playerID} message={player.message} endMessage={this.endMessage}/>
       </ThemeProvider>
     );
   }

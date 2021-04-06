@@ -36,6 +36,9 @@ export class Player extends React.Component {
 
 
     renderCarriage(num) {
+        if (num === 2){
+            return <div />
+        }
         const bgStyle = {
             fill: "gold",
             strokeWidth: 1,
@@ -59,6 +62,7 @@ export class Player extends React.Component {
                     transform="translate(70 20)"
                 />
                 <text x="18" y="25" textAnchor="middle" transform="translate(70 20)">{carriages[num].points}</text>
+                <text x="5" y="50" textAnchor="left">Carriage</text>
                 {/* Wheel */}
                 {dxs.map( (x, i) =>
                     <svg key={x}>
@@ -111,7 +115,7 @@ export class Player extends React.Component {
                         </Grid>
                     )}
                 </Grid>
-                    <Grid item xs={9}>Carriage: {this.renderCarriage(player.carriageNumber)}
+                    <Grid item xs={9}>{this.renderCarriage(player.carriageNumber)}
                     {/* Bonuses */}
                     {Object.keys(player.bonuses).map((bonus) => 
                         player.bonuses[bonus].map((point) =>
