@@ -1,6 +1,5 @@
 import React from 'react';
 import { bonuses } from '../static/bonuses'
-import './styles/card.css'
 
 export default class BonusChip extends React.Component {
 

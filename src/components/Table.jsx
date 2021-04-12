@@ -6,8 +6,6 @@ import Supply from './Supply';
 import SnackbarDialog from './SnackbarDialog';
 import Tableau from './Tableau';
 import Bonuses from './Bonuses';
-import './styles/card.css'
-import './styles/board.css'
 import "./styles/thornyubers.css"
 import { Player } from './Player';
 import PropTypes from 'prop-types';

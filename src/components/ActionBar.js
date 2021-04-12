@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Hand from './Hand';
 import Tableau from './Tableau';
-import './styles/card.css'
 import { playerColors } from '../static/playerColors'
 import { List, ListItem, ListItemIcon, ListItemText, Paper, Typography } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';

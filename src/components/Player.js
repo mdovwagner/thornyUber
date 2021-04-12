@@ -6,7 +6,6 @@ import DoneIcon from '@material-ui/icons/Done';
 import HomeIcon from '@material-ui/icons/Home';
 import Hand from './Hand';
 import Tableau from './Tableau';
-import './styles/card.css'
 import { bonuses } from '../static/bonuses';
 import { carriages } from '../static/carriages';
 
