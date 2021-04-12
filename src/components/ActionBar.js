@@ -11,6 +11,7 @@ import SendIcon from '@material-ui/icons/Send';
 import DoneIcon from '@material-ui/icons/Done';
 import DeleteIcon from '@material-ui/icons/Delete';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
+import SyncIcon from '@material-ui/icons/Sync';
 
 export default function ActionBar(props) {
 
@@ -18,7 +19,8 @@ export default function ActionBar(props) {
     let buttons = []
     const hStyle = {
         // position: "fixed",
-        backgroundColor: "tan",
+        backgroundColor: (props.myTurn) ? "gold" : "tan",
+        opacity: "100%",
         bottom: 0}
 
     if (props.playerID !== props.currentPlayer) {
@@ -30,7 +32,10 @@ export default function ActionBar(props) {
         let stage = props.activePlayers[props.currentPlayer];
         switch(stage) {
             case "draw": 
-                message = "Draw a Card";
+                message = "Draw a Card or ";
+                buttons = [<Button key="admin" variant="contained" color="primary" onClick={props.administrator} endIcon={<SyncIcon />}>
+                    Administrator
+                        </Button>]
                 break;
             case "play": 
                 message = "Play a Card";
@@ -61,7 +66,7 @@ export default function ActionBar(props) {
     }
     return (
         
-        <Paper style={hStyle}>
+        <Paper class="section" style={hStyle}>
             <Button disableRipple>{message}</Button>
             {buttons}
             {/* <Snackbar open={this.props.open} autoHideDuration={6000}>

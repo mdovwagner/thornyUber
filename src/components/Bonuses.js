@@ -24,7 +24,7 @@ export default class Bonuses extends React.Component {
             stroke: "black"
         }
         return (
-            <Card style={{ backgroundColor: "tan" }}>
+            <Card class="section">
                 <Typography>Bonuses</Typography>
                 {Object.keys(this.props.bonuses).map((bonus) =>
                     <BonusChip key={bonus} bonus={bonus} point={this.props.bonuses[bonus][0]} />

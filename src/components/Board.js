@@ -156,7 +156,12 @@ export class ThornyUbersBoard extends React.Component {
 
     render() {
         let scale = 1;
-        return (<Paper style={{ backgroundColor: "tan" }}>
+        const myStage = (this.props.myTurn && (this.props.stage === "score" || this.props.stage === "place"));
+        const oStyle = {
+            opacity: (this.props.myTurn) ? "100%" : "70%",
+            borderColor: (myStage) ? "black" : "#987554"
+        }
+        return (<Paper class="section" style={oStyle}>
             <svg width={650 * scale} height={450 * scale} viewBox="0 0 650 470" >
                 <defs>
                     <style type="text/css">@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Gamja+Flower|Xanh+Mono');</style>

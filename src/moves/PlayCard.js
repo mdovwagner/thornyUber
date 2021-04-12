@@ -1,18 +1,28 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 import { edgeLookup } from '../static/edges';
 import { officials } from '../static/officials';
+import { endTurn } from './EndTurn';
 import { changeMessage } from './Message';
+import { setOfficial } from './PickOfficial';
 
 
 export function playCard(G, ctx, city, onLeft) {
-    console.log("Play Card");
+    let stage = ctx.activePlayers[ctx.currentPlayer];
+    console.log("Play Card from " + stage);
     let player = G.players[ctx.currentPlayer];
     player.validOfficials[officials.POSTMASTER] = false;
     if (player.official === null) {
         player.validOfficials[officials.POSTALCARRIER] = true;
         player.validOfficials[officials.CARTWRIGHT] = true;
     }
-    
+    if (stage === "score") {
+        // Using POSTALCARRIER
+        if (G.players[ctx.currentPlayer].official !== null) {
+            // Already used POSTALCARRIER
+            return INVALID_MOVE;
+        }
+        setOfficial(G, ctx, officials.POSTALCARRIER);
+    }
     // Take card from hand and add it to tableau on left or right side.
 
     if (!player.hand.includes(city)) {
@@ -38,6 +48,11 @@ export function playCard(G, ctx, city, onLeft) {
         player.tableau.unshift(city)
     } else {
         player.tableau.push(city)
+    }
+
+    if ((G.players[ctx.currentPlayer].official !== null || player.hand.length === 0) && player.tableau.length < 3) {
+        // (Already played an official OR no cards in hand) AND cannot score (< 3)
+        endTurn(G, ctx);
     }
     ctx.events.setStage("score");
 }

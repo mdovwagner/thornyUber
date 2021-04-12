@@ -7,7 +7,7 @@ import { playCard } from './moves/PlayCard.js'
 import { trashRoute } from './moves/TrashRoute.js'
 import { scoreCards } from './moves/ScoreCards.js'
 import { placeHouses } from './moves/PlaceHouses.js'
-import { pickOfficial } from './moves/PickOfficial.js'
+import { administrator } from './moves/PickOfficial.js'
 import { selectCity } from './moves/SelectCity.js'
 import { endTurn } from './moves/EndTurn.js'
 
@@ -79,16 +79,19 @@ const turns = {
         G.players[ctx.currentPlayer].validOfficials[officials.ADMINISTRATOR] = true;
         G.players[ctx.currentPlayer].selectedCities = []
         G.newTurn = true;
-        // G.players[ctx.currentPlayer].message.valid = true;
-        // G.players[ctx.currentPlayer].message.text = "Your turn " + ctx.currentPlayer;
-        // G.players[ctx.currentPlayer].message.type = "info";
         changeMessage(G, ctx, { valid: true, text: "Your turn " + ctx.currentPlayer, type: "info" });
         ctx.events.setActivePlayers({ currentPlayer: 'draw', others: 'wait'});
     },
     stages: {
-        draw: { moves: { drawCard, pickOfficial, endMessage } },
-        play: { moves: { playCard, pickOfficial, trashRoute, endMessage } },
-        score: { moves: { scoreCards, pickOfficial, endTurn, endMessage } },
+        // draw: { moves: { drawCard, pickOfficial, endMessage } },
+        // play: { moves: { playCard, pickOfficial, trashRoute, endMessage } },
+        // score: { moves: { scoreCards, pickOfficial, endTurn, endMessage } },
+        // place: { moves: { selectCity, placeHouses, endMessage } },
+        // wait: { moves: { changeMessage, endMessage } },
+        // administrator: { moves: { discardCard } } // -> draw card
+        draw: { moves: { drawCard, administrator, endMessage } },
+        play: { moves: { playCard, drawCard, trashRoute, endMessage } },
+        score: { moves: { scoreCards, playCard, endTurn, endMessage } },
         place: { moves: { selectCity, placeHouses, endMessage } },
         wait: { moves: { changeMessage, endMessage } },
         // administrator: { moves: { discardCard } } // -> draw card
@@ -103,7 +106,7 @@ export const ThornyUber = {
     setup: setupGame,
 
     moves : {
-        pickOfficial: pickOfficial,
+        // pickOfficial: pickOfficial,
         drawCard : drawCard,
         endMessage : endMessage
     },

@@ -16,7 +16,18 @@ function discardCards(G, ctx) {
     }
 }
 
+export function setOfficial(G, ctx, official) { 
+    // Invalidate all Officials
+    for (let official in G.players[ctx.currentPlayer].validOfficials) {
+        G.players[ctx.currentPlayer].validOfficials[official] = false;
+    }
+    G.players[ctx.currentPlayer].official = official;
+}
 
+export function administrator(G, ctx) {
+    discardCards(G, ctx);
+    setOfficial(G, ctx, officials.ADMINISTRATOR);
+}
 
 export function pickOfficial(G, ctx, official) {
     console.log("Pick Official");

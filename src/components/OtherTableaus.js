@@ -7,16 +7,20 @@ import { yellow } from '@material-ui/core/colors';
 import { BorderColor } from '@material-ui/icons';
 import HomeIcon from '@material-ui/icons/Home';
 import BonusChip from './BonusChip';
+// import "./styles/thornyubers.css"
 
 
 
 
 export default function OtherTableaus(props) {
+    let playerName = (props.playerID in props.matchData) ? props.matchData[props.playerID].name : "Player "+ props.playerID.toString();
+    let otherPlayers = Object.values(props.players).filter(player => { return (player.id.toString() !== props.playerID)});
     return (
         <List>
-            {Object.values(props.players).map(player =>
+            {Object.values(otherPlayers).map(player =>
                 <ListItem key={player.id}>
-                    <Paper variant="outlined" style={{ border: "3px solid", borderColor: playerColors[player.id].houseBackground, backgroundColor: "tan"}}>
+                    {/* style={{ border: "3px solid", borderColor: playerColors[player.id].houseBackground, backgroundColor: "tan" }} */}
+                    <Paper variant="outlined" class="section" style={{ borderColor: playerColors[player.id].houseBackground}}>
                     Player {player.id}'s Tableau
                     <br />
                     <HomeIcon style={{ color: playerColors[player.id].houseBackground, stroke: "black"}}/> x {player.houses}, Carriage: {player.carriageNumber}

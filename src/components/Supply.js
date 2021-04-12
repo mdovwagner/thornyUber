@@ -13,8 +13,11 @@ function renderCity(props,city) {
 
 
 export default function Supply(props) {
+    const myStage = (props.myTurn && (props.stage === "draw" || (props.stage === "play" && props.official === null)));
+    const oStyle = {opacity: (myStage) ? "100%" : "70%",
+                    borderColor: (myStage) ? "black" : "#987554"}
     return (
-        <Paper style={{ backgroundColor: "tan" }}>
+        <Paper class="section" style={oStyle}>
             <Grid container direction="row"
                 justify="space-evenly"
                 alignItems="flex-start">

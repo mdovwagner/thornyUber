@@ -79,7 +79,15 @@ export class Player extends React.Component {
 
 
     render() {
-        let player = this.props.player
+        let player = this.props.player;
+        const myStage = (this.props.myTurn && (this.props.stage === "play" || (this.props.stage === "score" && this.props.official === null)));
+        const oStyle = {
+            opacity: (myStage) ? "100%" : "70%",
+            borderColor: (myStage) ? "black" : "#987554"
+        }
+        const tStyle = {
+            opacity: (this.props.myTurn) ? "100%" : "70%",
+        }
 
         const houses = Array(player.houses).fill(null);
 
@@ -92,15 +100,19 @@ export class Player extends React.Component {
                 justify="flex-start"
                 alignItems="flex-start">
                 <Grid item xs={4}>
-                <Paper style={{ backgroundColor: "tan" }}>
+                <Paper class="section" style={oStyle}>
                     Hand
-                    <Hand hand={player.hand} onClick={this.props.playCard} tableau={player.tableau} highlightCity={this.props.highlightCity} unhighlightCity={this.props.unhighlightCity} />
+                    <Hand hand={player.hand} onClick={this.props.playCard} tableau={player.tableau} 
+                          highlightCity={this.props.highlightCity} unhighlightCity={this.props.unhighlightCity} 
+                        />
                 </Paper>
             </Grid>
             <Grid item xs={8}>
-            <Paper style={{ backgroundColor: "tan" }}>
+            <Paper class="section" style={tStyle}>
                 Tableau
-                <Tableau tableau={player.tableau} highlightCity={this.props.highlightCity} unhighlightCity={this.props.unhighlightCity}/>
+                <Tableau tableau={player.tableau} 
+                         highlightCity={this.props.highlightCity} unhighlightCity={this.props.unhighlightCity}
+                        />
                 <Grid container
                     direction="row"
                     justify="flex-start"
