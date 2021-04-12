@@ -63,6 +63,7 @@ export function checkGameOver(G, ctx) {
     }
     if (isLastTurn(G, ctx)) {
         console.log("Game Over");
-        ctx.events.endGame({ winner: getWinner(G, ctx) });
+        // ctx.events.endGame({ winner: getWinner(G, ctx) });
+        ctx.events.endGame({ winnerIDs: [getWinner(G, ctx)] });
     } 
 }
